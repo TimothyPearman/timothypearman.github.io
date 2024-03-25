@@ -6,7 +6,9 @@
 
 .nav {
   overflow: hidden;
-  background-image: linear-gradient(to bottom right, #333, #F1F1F1);
+  height: 200px;
+  background-color: cyan; 
+  background-image: linear-gradient(to bottom right, cyan, aquamarine);
 }
 
 .topnav a {

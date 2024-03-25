@@ -41,8 +41,7 @@
 .nav {
   overflow: hidden;
   height: 200px;
-  background-color: #616161; 
-  background-image: linear-gradient(to bottom right, #616161, #F1F1F1);
+  background-color: #616161;
 }
 
 .topnav a {

@@ -1,3 +1,37 @@
+/* This is a CSS comment */
+
+.Normal { 
+  height: 100px;
+  width: 100px;
+  color: black;
+  font-weight: bold;
+  border: solid 10px crimson;
+}
+  
+.Important { 
+  font-size: 120%;
+  color: red;
+}
+  
+#CLICKME {
+  height: 100px;
+  width: 100px;
+  font-size: 15px;
+  font-family: Ariel;
+  font-style: italic;
+  font-weight: bold;
+  color: cyan;
+  background-color: magenta;
+  border: solid 10px gold;
+  border-radius: 10px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  text-align: center;
+  padding: 20px 20px 20px 20px;
+}
+
 .header {
   background-color: #F1F1F1;
   text-align: center;

@@ -38,10 +38,9 @@
   padding: 20px;
 }
 
-.nav {
+.topnav {
   overflow: hidden;
-  height: 200px;
-  background-color: #616161;
+  background-color: #333;
 }
 
 .topnav a {
@@ -59,18 +58,19 @@
 }
 
 .main{
-  background-color: #F1F1F1;
+  float: left;
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+  background-color: grey;
   text-align: center;
-  padding: 20px;
 }
 
 .side{
   float: right;
-  text-align: center;
   width: 25%;
-  height: 500px;
+  padding: 10px 10px 10px 10px;
   background-color:blue;
-  padding-left: 20px;
+  text-align: center;
 }
 
 .section{
@@ -87,8 +87,15 @@
 
 .footer {
   float: bottom;
+  width: 100%;
   background-color: #777;
   padding: 10px;
   text-align: center;
   color: white;
+}
+
+.card {
+  background-color: white;
+  padding: 20px;
+  margin-top: 10px;
 }

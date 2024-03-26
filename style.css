@@ -36,9 +36,6 @@
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  background-color: yellow;
-  padding: 50px;
-  font-size: 20px;
 }
 
 .header {
@@ -95,8 +92,8 @@
 }
 
 .footer {
-  float: bottom;
   position: fixed;
+  float: bottom;
   left: 0;
   bottom: 0;
   width: 100%;

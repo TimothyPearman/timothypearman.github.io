@@ -87,6 +87,9 @@
 
 .footer {
   float: bottom;
+  position: fixed;
+  left: 0;
+  bottom: 0;
   width: 100%;
   background-color: #777;
   padding: 10px;

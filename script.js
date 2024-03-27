@@ -12,9 +12,9 @@ function flipFunction() {
   
     if (testtextElement.innerHTML === "Phase 1") {
       testtextElement.innerHTML = "Phase 2";
-      testpicElement.src = "C:\\Users\\Corsair\\Downloads\\other\\red.JPG";
+      testpicElement.src = "https://github.com/Timmy1404/Timmy1404.github.io/blob/main/docs/assets/img/red.png";
     } else {
       testtextElement.innerHTML = "Phase 1";
-      testpicElement.src = "C:\\Users\\Corsair\\Downloads\\other\\green.PNG";
+      testpicElement.src = "https://github.com/Timmy1404/Timmy1404.github.io/blob/main/docs/assets/img/green.png";
     }
   }

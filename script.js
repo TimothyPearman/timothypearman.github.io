@@ -12,9 +12,9 @@ function flipFunction() {
   
     if (testtextElement.innerHTML === "Phase 1") {
       testtextElement.innerHTML = "Phase 2";
-      testpicElement.src = "https://github.com/Timmy1404/Timmy1404.github.io/blob/main/docs/assets/img/red.png";
+      testpicElement.src = "https://raw.githubusercontent.com/Timmy1404/Timmy1404.github.io/main/docs/assets/img/red.png";
     } else {
       testtextElement.innerHTML = "Phase 1";
-      testpicElement.src = "https://github.com/Timmy1404/Timmy1404.github.io/blob/main/docs/assets/img/green.png";
+      testpicElement.src = "https://raw.githubusercontent.com/Timmy1404/Timmy1404.github.io/main/docs/assets/img/green.png";
     }
   }

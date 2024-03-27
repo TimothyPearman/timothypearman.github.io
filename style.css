@@ -38,6 +38,10 @@
   top: 0;
 }
 
+.column {
+  float: left;
+}
+
 .header {
   background-color: #F1F1F1;
   text-align: center;
@@ -65,7 +69,7 @@
 
 .main{
   float: left;
-  width: 75%;
+  width: 60%;
   padding: 10px 10px 10px 10px;
   background-color: grey;
   text-align: center;
@@ -106,11 +110,4 @@
   padding: 10px;
   text-align: center;
   color: white;
-}
-
-.card {
-  background-color: white;
-  padding: 20px;
-  margin: 10px;
-  border: 1px solid black;
 }

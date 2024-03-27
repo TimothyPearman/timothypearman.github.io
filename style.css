@@ -68,6 +68,12 @@
   width: 100%;
 }
 
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .main{
   float: left;
   width: 60%;

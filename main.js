@@ -16,4 +16,5 @@ console.log(scene);
 console.log(camera);
 console.log(renderer);
 
+renderer.setSize(innerWidth, innerHeight)
 document.body.appendChild(renderer.domELement)

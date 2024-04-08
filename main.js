@@ -24,6 +24,6 @@ const material = new THREE.MeshBasicMaterial({color: 0x00FF00})
 console.log(boxGeometry);
 console.log(material);
 
-const mesh = new THREE.Mesh(geometry, material)
+const mesh = new THREE.Mesh(boxGeometry, material)
 
 console.log(mesh);

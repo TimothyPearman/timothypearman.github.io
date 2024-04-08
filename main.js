@@ -1,11 +1,11 @@
-// Find the laterst version by visiting https://unpkg.com/three.
+// Find the latest version by visiting https://unpkg.com/three.
 
 import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
   75,
-  innerWidth / innerHeight,
+  window.innerWidth / window.innerHeight,
   0.1,
   1000
 )
@@ -14,7 +14,7 @@ console.log(scene);
 console.log(camera);
 console.log(renderer);
 
-renderer.setSize(innerWidth, innerHeight)
+renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)

@@ -19,5 +19,11 @@ renderer.setSize(innerWidth, innerHeight)
 document.body.appendChild(renderer.domElement)
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+const material = new THREE.MeshBasicMaterial({color: 0x00FF00})
 
 console.log(boxGeometry);
+console.log(material);
+
+const mesh = new THREE.Mesh(geometry, material)
+
+console.log(mesh);

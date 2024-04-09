@@ -29,7 +29,7 @@ const mesh = new THREE.Mesh(boxGeometry, material)  //create the box mesh using 
 console.log(mesh);
 
 scene.add(mesh)  //check box mesh
-const orbitControls = new OrbitControls(camera, renderer.domElement);
+//const orbitControls = new OrbitControls(camera, renderer.domElement);
 camera.position.z = 5  //move camera away from origin to see the box
 
 function animate() {  //animation loop

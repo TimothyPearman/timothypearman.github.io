@@ -1,8 +1,6 @@
 // Find the latest version by visiting https://unpkg.com/three.
 
 import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
-//import { OrbitControls } from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js'  //orbit controls module
-//console.log(OrbitControls);
 
 const scene = new THREE.Scene()  //declaring the thingys
 const camera = new THREE.PerspectiveCamera(
@@ -29,7 +27,7 @@ const mesh = new THREE.Mesh(boxGeometry, material)  //create the box mesh using 
 console.log(mesh);
 
 scene.add(mesh)  //check box mesh
-//const orbitControls = new OrbitControls(camera, renderer.domElement);
+
 camera.position.z = 5  //move camera away from origin to see the box
 
 function animate() {  //animation loop
@@ -38,8 +36,6 @@ function animate() {  //animation loop
   mesh.rotation.x += 0.01 
   mesh.rotation.y += 0.01 
   mesh.rotation.z += 0.01 
-
-  //orbitControls.update();  // Update controls
 }
 
 animate()

@@ -1,8 +1,8 @@
 // Find the latest version by visiting https://unpkg.com/three.
 
 import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-console.log(OrbitControls);  //checking if the orbit controls import worked
+//import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+//console.log(OrbitControls);  //checking if the orbit controls import worked
 
 const scene = new THREE.Scene()  //declaring the thingys
 const camera = new THREE.PerspectiveCamera(
@@ -21,7 +21,7 @@ renderer.setPixelRatio(devicePixelRatio)  //fix sharp edges
 document.body.appendChild(renderer.domElement)
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1) //create the box geometry
-const material = new THREE.MeshBasicMaterial({color: 0x00FF00})  //create the box material
+const material = new THREE.MeshBasicMaterial({color: 0x0FFF00})  //create the box material
 console.log(boxGeometry);
 console.log(material);
 

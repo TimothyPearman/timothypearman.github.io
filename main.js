@@ -1,7 +1,7 @@
 // Find the latest version by visiting https://unpkg.com/three.
 
 import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
+//import { OrbitControls } from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
 
 const scene = new THREE.Scene()  //declaring the thingys
 const camera = new THREE.PerspectiveCamera(
@@ -34,7 +34,7 @@ camera.position.y = 0
 camera.position.z = 5 
 camera.lookAt(0, 0, 0);
 
-const controls = new OrbitControls(camera, renderer.domElement);
+//const controls = new OrbitControls(camera, renderer.domElement);
 
 function animate() {  //animation loop
   renderer.render(scene, camera)

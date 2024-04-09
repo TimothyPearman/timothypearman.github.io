@@ -1,6 +1,8 @@
 // Find the latest version by visiting https://unpkg.com/three.
 
 import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js'  //orbit controls module
+console.log(OrbitControls);
 
 const scene = new THREE.Scene()  //declaring the thingys
 const camera = new THREE.PerspectiveCamera(

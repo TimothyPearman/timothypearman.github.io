@@ -2,6 +2,7 @@
 
 import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
 //import { OrbitControls } from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
+//console.log(scene);  //checking if the orbit controls import worked
 
 const scene = new THREE.Scene()  //declaring the thingys
 const camera = new THREE.PerspectiveCamera(

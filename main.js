@@ -1,6 +1,6 @@
 // Find the latest version by visiting https://unpkg.com/three.
 
-import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js';
 
 const scene = new THREE.Scene()  //declaring the thingys

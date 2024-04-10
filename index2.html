@@ -1,11 +1,159 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Demo 04</title>
-		<script type="text/javascript" src="../three.min.js" ></script>
-		<script type="text/javascript" src="main.js" ></script>
-	</head>
-	<body style="text-align:center;">
-		<span style="position:absolute;top:0px;left:0px;"><input type="button" value="Toggle Wireframe" onclick="mesh.material.wireframe=!mesh.material.wireframe;meshFloor.material.wireframe=!meshFloor.material.wireframe;"/><br/>WASD to move.<br/>Arrow keys to turn.</span>
-	</body>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Timmy1404/Timmy1404.github.io/main/docs/assets/img/red.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio Page</title>
+        <style>
+           body {
+             margin: 0;
+           }
+        </style>
+    </head>
+    <body>
+        <div id="app"></div>
+        <!-- <p style="color: red;">hi</p> -->
+        <script type="module">
+            //Three.js libary
+            import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
+            //Orbit Contol module
+            import {OrbitControls} from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
+            
+            //creating the structuere
+            const scene = new THREE.Scene()
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+            const renderer = new THREE.WebGLRenderer({antialias:true})
+            const controls = new OrbitControls(camera, renderer.domElement);
+            //
+            controls.target = new THREE.Vector3(0, 0, 0);
+            controls.enableRotate = true;
+            controls.enablePan = true;
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.5;
+            controls.rotateSpeed = 0.5;
+            controls.panSpeed = 1.1;
+            controls.minDistance = 1;
+            controls.maxDistance = 20;
+            //controls.autoRotate = true;
+            //controls.autoRotateSpeed = 5;  
+
+            //controls.minAzimuthAngle = 0;
+            //controls.maxAzimuthAngle = 0;
+            //controls.minPolarAngle = 0;
+            //controls.maxPolarAngle = 0;
+
+            renderer.setSize(window.innerWidth, window.innerHeight)  //make it take up the full screen
+            renderer.setPixelRatio(devicePixelRatio)  //fix sharp edges
+            document.body.appendChild(renderer.domElement)  //append to HTML <body>
+
+            /*
+            //cube skybox
+            const skyboxgeometry = new THREE.BoxGeometry( 1000, 1000, 1000);
+            const skyboxmaterial = new THREE.MeshStandardMaterial({color: 0x00FFFF, side: THREE.DoubleSide});
+            const skybox = new THREE.Mesh( skyboxgeometry, skyboxmaterial );
+            //
+            skybox.position.set(0, 0, 0);
+            skybox.rotation.set(0, 0, 0);
+
+            scene.add(skybox) 
+            */
+
+            /*
+            const earthTexture = new THREE.TextureLoader().load('./arid2_ft.jpg');
+
+            const ge5 = new THREE.BoxGeometry(10, 1, 1);
+            const me5 = new THREE.MeshStandardMaterial({
+                map: earthTexture,
+                //map: brickTexture,
+            });
+            const sphereMe5 = new THREE.Mesh(ge5, me5);
+            //sphereMe5.position.x = 9;
+            //sphereMe5.position.y = 5;
+            scene.add(sphereMe5);
+            */
+
+            //var textureLoader = new THREE.TextureLoader();
+            //cubeTexture = new textureLoader.load("crate0/crate0_diffuse.png")
+            
+            //const cubegeometry = new THREE.BoxGeometry(3, 3, 3)
+            //const cubematerial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, map:cubeTexture})
+            //const cube = new THREE.Mesh(cubegeometry, cubematerial)
+            //
+            //cube.position.set(1, 1.5, -2.5)
+            //scene.add(cube)
+
+            
+
+            //plane
+            const planegeometry = new THREE.PlaneGeometry(50, 50);
+            const planematerial = new THREE.MeshBasicMaterial( {color: 0x00FF00, side: THREE.DoubleSide} );
+            const plane = new THREE.Mesh(planegeometry, planematerial);
+            //
+            plane.position.set(0, 0, 0);
+            plane.rotation.set(270 * (Math.PI / 180), 0, 0);
+
+            //box
+            const boxgeometry = new THREE.BoxGeometry(1, 1, 1);
+            const boxmaterial = new THREE.WireframeGeometry(boxgeometry);
+            const box = new THREE.LineSegments(boxmaterial);
+            box.material.depthTest = false;
+            box.material.opacity = 1;
+            box.material.transparent = true;
+            //
+            box.position.set(-2, 0.5, -2);
+            box.rotation.set(0, 0, 0);
+
+            //sphere
+            const sphereGeometry = new THREE.SphereGeometry(1, 4, 4)
+            const spherematerial = new THREE.MeshPhongMaterial({color: 0xFFFF00})
+            const sphere = new THREE.Mesh(sphereGeometry, spherematerial)
+            //
+            sphere.position.set(0, 2, 0);
+            sphere.rotation.set(0, 0, 0);
+            
+            //top light
+            const light = new THREE.DirectionalLight(0xFFFFFF, 0.75)
+            //
+            light.position.set(0, 5, 0)
+            light.rotation.set(0, 0, 0)
+            
+            //user camera
+            camera.position.set(0, 5, 10)
+            camera.rotation.set(0, 0, 0)
+            //
+
+            camera.lookAt(0, 0, 0);
+            controls.update();
+
+            //creating the scene
+            scene.add(plane)  
+            scene.add(box);
+            scene.add(sphere)
+            scene.add(light)
+
+            controls.saveState();
+            window.addEventListener('keydown', function(e) {
+                if(e.code === 'KeyS') //save view
+                    controls.saveState();
+                if(e.code === 'KeyL') //go back to saved view
+                    for (let i = 0; i < 10; i++) {
+                        controls.reset();
+                    }
+                    
+            });
+            
+            function animate() {  //animation loop
+                renderer.render(scene, camera)
+
+                sphere.rotation.x += 0.01 
+                sphere.rotation.y += 0.01 
+                sphere.rotation.z += 0.01 
+              
+                requestAnimationFrame(animate)
+            }
+            
+            animate()
+        </script> 
+    </body>
 </html>

@@ -4,73 +4,127 @@
             //import {OrbitControls} from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js';
             //console.log(OrbitControls);  //checking if the orbit controls import worked
             
-            const scene = new THREE.Scene()  //declaring the thingys
-            const camera = new THREE.PerspectiveCamera(
-                75,
-                window.innerWidth / window.innerHeight,
-                0.1,
-                1000
-            )
-            const renderer = new THREE.WebGLRenderer()
-            //console.log(scene);  //checking the thingys work
-            //console.log(camera);
-            //console.log(renderer);
-            
-            renderer.setSize(window.innerWidth, window.innerHeight)  //make it take up the full screen
-            renderer.setPixelRatio(devicePixelRatio)  //fix sharp edges
-            document.body.appendChild(renderer.domElement)
-            
-            const boxGeometry = new THREE.BoxGeometry(1, 1, 1) //create the box geometry
-            const boxmaterial = new THREE.MeshBasicMaterial({color: 0xFFFF00})  //create the box material
-            const box = new THREE.Mesh(boxGeometry, boxmaterial)  //create the box mesh using the geometry and material
+            var scene, camera, renderer, mesh;
+var meshFloor, ambientLight, light;
 
+var crate, crateTexture, crateNormalMap, crateBumpMap;
 
-            const planegeometry = new THREE.PlaneGeometry( 5, 5 );
-            const planematerial = new THREE.MeshBasicMaterial( {color: 0x00FF00, side: THREE.DoubleSide} );
-            const plane = new THREE.Mesh( planegeometry, planematerial );
+var keyboard = {};
+var player = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
+var USE_WIREFRAME = false;
 
-            const wiregeometry = new THREE.SphereGeometry( 1, 10, 10);
-            const wireframe = new THREE.WireframeGeometry( wiregeometry );
-            const wire = new THREE.LineSegments( wireframe );
-            wire.material.depthTest = false;
-            wire.material.opacity = 1;
-            wire.material.transparent = true;
-            
-            scene.add(box)  //add objects
-            scene.add(plane)  
-            scene.add( wire );
+function init(){
+	scene = new THREE.Scene();
+	camera = new THREE.PerspectiveCamera(90, 1280/720, 0.1, 1000);
+	
+	mesh = new THREE.Mesh(
+		new THREE.BoxGeometry(1,1,1),
+		new THREE.MeshPhongMaterial({color:0xff4444, wireframe:USE_WIREFRAME})
+	);
+	mesh.position.y += 1;
+	mesh.receiveShadow = true;
+	mesh.castShadow = true;
+	scene.add(mesh);
+	
+	meshFloor = new THREE.Mesh(
+		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.MeshPhongMaterial({color:0xffffff, wireframe:USE_WIREFRAME})
+	);
+	meshFloor.rotation.x -= Math.PI / 2;
+	meshFloor.receiveShadow = true;
+	scene.add(meshFloor);
+	
+	ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+	scene.add(ambientLight);
+	
+	light = new THREE.PointLight(0xffffff, 0.8, 18);
+	light.position.set(-3,6,-3);
+	light.castShadow = true;
+	light.shadow.camera.near = 0.1;
+	light.shadow.camera.far = 25;
+	scene.add(light);
+	
+	
+	// Texture Loading
+	var textureLoader = new THREE.TextureLoader();
+	crateTexture = textureLoader.load("crate0/crate0_diffuse.png");
+	crateBumpMap = textureLoader.load("crate0/crate0_bump.png");
+	crateNormalMap = textureLoader.load("crate0/crate0_normal.png");
+	
+	// Create mesh with these textures
+	crate = new THREE.Mesh(
+		new THREE.BoxGeometry(3,3,3),
+		new THREE.MeshPhongMaterial({
+			color:0xffffff,
+			
+			map:crateTexture,
+			bumpMap:crateBumpMap,
+			normalMap:crateNormalMap
+		})
+	);
+	scene.add(crate);
+	crate.position.set(2.5, 3/2, 2.5);
+	crate.receiveShadow = true;
+	crate.castShadow = true;
+	
+	
+	camera.position.set(0, player.height, -5);
+	camera.lookAt(new THREE.Vector3(0,player.height,0));
+	
+	renderer = new THREE.WebGLRenderer();
+	renderer.setSize(1280, 720);
 
-            box.position.x = -2
-            box.position.y = 2
-            box.position.z = 0.5
+	renderer.shadowMap.enabled = true;
+	renderer.shadowMap.type = THREE.BasicShadowMap;
+	
+	document.body.appendChild(renderer.domElement);
+	
+	animate();
+}
 
-            plane.position.x = 0
-            plane.position.y = 0
-            plane.position.z = 0
-            
-            wire.position.x = 0
-            wire.position.y = 0
-            wire.position.z = 2
+function animate(){
+	requestAnimationFrame(animate);
+	
+	mesh.rotation.x += 0.01;
+	mesh.rotation.y += 0.02;
+	crate.rotation.y += 0.01;
+	
+	if(keyboard[87]){ // W key
+		camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
+		camera.position.z -= -Math.cos(camera.rotation.y) * player.speed;
+	}
+	if(keyboard[83]){ // S key
+		camera.position.x += Math.sin(camera.rotation.y) * player.speed;
+		camera.position.z += -Math.cos(camera.rotation.y) * player.speed;
+	}
+	if(keyboard[65]){ // A key
+		camera.position.x += Math.sin(camera.rotation.y + Math.PI/2) * player.speed;
+		camera.position.z += -Math.cos(camera.rotation.y + Math.PI/2) * player.speed;
+	}
+	if(keyboard[68]){ // D key
+		camera.position.x += Math.sin(camera.rotation.y - Math.PI/2) * player.speed;
+		camera.position.z += -Math.cos(camera.rotation.y - Math.PI/2) * player.speed;
+	}
+	
+	if(keyboard[37]){ // left arrow key
+		camera.rotation.y -= player.turnSpeed;
+	}
+	if(keyboard[39]){ // right arrow key
+		camera.rotation.y += player.turnSpeed;
+	}
+	
+	renderer.render(scene, camera);
+}
 
-            camera.position.x = 0  //move camera away from origin to see the box
-            camera.position.y = -10
-            camera.position.z = 5
-            camera.lookAt(0, 0, 0);
-            
-            //const controls = new OrbitControls(camera, renderer.domElement);
-            
-            function animate() {  //animation loop
-                renderer.render(scene, camera)
+function keyDown(event){
+	keyboard[event.keyCode] = true;
+}
 
-                //camera.rotation.x += 0.01 
-                //camera.rotation.y += 0.01
-                //camera.rotation.z += 0.01 
+function keyUp(event){
+	keyboard[event.keyCode] = false;
+}
 
-                wire.rotation.x += 0.01 
-                wire.rotation.y += 0.01 
-                wire.rotation.z += 0.01 
-              
-                requestAnimationFrame(animate)
-            }
-            
-            animate()
+window.addEventListener('keydown', keyDown);
+window.addEventListener('keyup', keyUp);
+
+window.onload = init;

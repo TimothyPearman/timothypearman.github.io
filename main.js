@@ -1,8 +1,8 @@
-          // Find the latest version by visiting https://unpkg.com/three.
-
+//Three.js libary
             import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
-            //import {OrbitControls} from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js';
-            //console.log(OrbitControls);  //checking if the orbit controls import worked
+            //Orbit Contol module
+            import {OrbitControls} from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
+            
             
             var scene, camera, renderer, mesh;
 var meshFloor, ambientLight, light;

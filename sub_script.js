@@ -10,7 +10,6 @@ const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000)
 const renderer = new THREE.WebGLRenderer({antialias:true})
 const controls = new OrbitControls(camera, renderer.domElement);
-
 const pointer = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 //
@@ -29,11 +28,16 @@ controls.maxDistance = 20;
 //controls.maxPolarAngle = 0;
 //controls.autoRotate = true;
 //controls.autoRotateSpeed = 5;
-controls.saveState();
 
 renderer.setSize(window.innerWidth, window.innerHeight)  //make it take up the full screen
 renderer.setPixelRatio(devicePixelRatio)  //fix sharp edges
 document.body.appendChild(renderer.domElement)  //append to HTML <body>
+
+//camera
+camera.position.set(0, 5, 10)
+//camera.rotation.set(0, 0, 0)
+//
+camera.lookAt(0, 0, 0);
 
 //skybox
 const skyboxgeometry = new THREE.BoxGeometry(10000, 10000, 10000);
@@ -50,36 +54,10 @@ const skybox = new THREE.Mesh(skyboxgeometry, skyboxmaterial);
 //
 skybox.position.set(0, 0, 0);
 skybox.rotation.set(0, 0, 0);
-
-//plane
-const planegeometry = new THREE.PlaneGeometry(5, 5);
-const planematerial = new THREE.MeshBasicMaterial( {color: 0x00FFFF, side: THREE.DoubleSide} );
-const plane = new THREE.Mesh(planegeometry, planematerial);
 //
-plane.position.set(0, 0, 0);
-plane.rotation.set(270 * (Math.PI / 180), 0, 0);
+scene.add(skybox)
 
-/*//box
-const boxgeometry = new THREE.BoxGeometry(1, 1, 1);
-const boxmaterial = new THREE.WireframeGeometry(boxgeometry);
-const box = new THREE.LineSegments(boxmaterial);
-box.material.depthTest = false;
-box.material.opacity = 1;
-box.material.transparent = true;
-//
-box.position.set(-2, 0.5, -2);
-box.rotation.set(0, 0, 0);
-*/
-
-//sphere
-const sphereGeometry = new THREE.SphereGeometry(1, 10, 10)
-const spherematerial = new THREE.MeshPhongMaterial({color: 0x00FF00})
-const sphere = new THREE.Mesh(sphereGeometry, spherematerial)
-//
-sphere.position.set(0, 2, 0);
-sphere.rotation.set(0, 0, 0);
-
-//3Dmodel
+//model
 const gltfLoader = new GLTFLoader();
 gltfLoader.setPath('./docs/assets/model/mig-35/');
 gltfLoader.load('scene.gltf', (gltfScene) => {
@@ -91,33 +69,43 @@ gltfLoader.load('scene.gltf', (gltfScene) => {
     scene.add(gltfScene.scene);
 });
 
-//top light1
+//plane
+const planegeometry = new THREE.PlaneGeometry(5, 5);
+const planematerial = new THREE.MeshBasicMaterial( {color: 0x00FFFF, side: THREE.DoubleSide} );
+const plane = new THREE.Mesh(planegeometry, planematerial);
+//
+plane.position.set(0, 0, 0);
+plane.rotation.set(270 * (Math.PI / 180), 0, 0);
+//
+scene.add(plane)  
+
+//sphere
+const sphereGeometry = new THREE.SphereGeometry(1, 10, 10)
+const spherematerial = new THREE.MeshPhongMaterial({color: 0xFFFF00})
+const sphere = new THREE.Mesh(sphereGeometry, spherematerial)
+//
+sphere.position.set(0, 2, 0);
+sphere.rotation.set(0, 0, 0);
+//
+scene.add(sphere)
+
+//light1
 const light1 = new THREE.DirectionalLight(0xFFFFFF, 0.75)
 //
 light1.position.set(0, 5, 0)
 light1.rotation.set(0, 0, 0)
-//top light2
+//
+scene.add(light1)
+
+//light2
 const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.75)
 //
 light2.position.set(3, 3, -5)
 light2.rotation.set(0, 0, 0)
-
-//user camera
-camera.position.set(0, 5, 10)
-camera.rotation.set(0, 0, 0)
 //
-
-camera.lookAt(0, 0, 0);
-controls.update();
-
-//creating the scene
-scene.add(skybox)
-scene.add(plane)  
-//scene.add(box);
-scene.add(sphere)
-scene.add(light1)
 scene.add(light2)
 
+controls.saveState();
 window.addEventListener('keydown', function(e) {
     if(e.code === 'KeyS') //save view
         controls.saveState();
@@ -126,20 +114,6 @@ window.addEventListener('keydown', function(e) {
             controls.reset();
         }
 });
-
-/*
-const mouse = {
-    x: undefined,
-    y: undefined
-}
-window.addEventListener('mousemove', (event) => {
-    mouse.x = event.clientX
-    mouse.y = event.clientY
-    //
-    console.log('move')
-    console.log(mouse)
-});
-*/
 
 const onMouseMove = (event) => {
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -158,6 +132,7 @@ const onMouseMove = (event) => {
 }
 window.addEventListener('mousemove', onMouseMove)
 
+controls.update();
 function animate() {  //animation loop
     renderer.render(scene, camera)
 

@@ -43,7 +43,7 @@ camera.lookAt(0, 0, 0);
 const skyboxgeometry = new THREE.BoxGeometry(10000, 10000, 10000);
 const skyboxmaterials = [
     new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/1.png'), side: THREE.DoubleSide}),  //right of camera
-    new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/left.png'), side: THREE.DoubleSide}),  //left of camera
+    new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/2.png'), side: THREE.DoubleSide}),  //left of camera
     new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/3.png'), side: THREE.DoubleSide}),  //top of camera
     new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/4.png'), side: THREE.DoubleSide}),  //bottom of camera
     new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/5.png'), side: THREE.DoubleSide}),  //back of camera
@@ -53,7 +53,7 @@ const skyboxmaterial = new THREE.MeshFaceMaterial(skyboxmaterials);
 const skybox = new THREE.Mesh(skyboxgeometry, skyboxmaterial);
 //
 skybox.position.set(0, 0, 0);
-skybox.rotation.set(0, 0, 0);
+skybox.rotation.set(Math.random() * 1, Math.random() * 1, Math.random() * 1);
 //
 scene.add(skybox)
 
@@ -81,7 +81,7 @@ scene.add(plane)
 
 //sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 10, 10)
-const spherematerial = new THREE.MeshPhongMaterial({color: 0xFFFF00})
+const spherematerial = new THREE.MeshPhongMaterial({color: 0x00FF00})
 const sphere = new THREE.Mesh(sphereGeometry, spherematerial)
 //
 sphere.position.set(0, 2, 0);
@@ -115,6 +115,11 @@ window.addEventListener('keydown', function(e) {
         }
 });
 
+//highlight
+let intersects = [];
+let firstobject;
+//let changed = 0;
+let colour;
 const onMouseMove = (event) => {
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
 	pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -122,15 +127,34 @@ const onMouseMove = (event) => {
     raycaster.setFromCamera(pointer, camera);
     raycaster.near = 0.1; // Minimum distance
     raycaster.far = 100;  // Maximum distance
-    const intersects = raycaster.intersectObjects(scene.children);
+    intersects = raycaster.intersectObjects(scene.children);
+    console.log(intersects);
+
+    if (intersects[0] != firstobject) {
+        if (firstobject != null) {
+        firstobject.object.material.color.set(colour);
+        console.log('unhighlighted');
+        }
+
+        firstobject = intersects[0]
+        colour = firstobject.object.material.color.getHex();
+        //firstobject.object.material.color.set(colour - 0x111111);
+        firstobject.object.material.color.set(0xFFFFFF);
+        console.log('highlighted');
+    }
+}
+//click
+const onMouseClick = (event) => {
+    console.log('click');
+    //console.log(intersects);
 
     if (intersects.length > 0) {
         intersects[0].object.material.color.set(Math.random() * 0xFF0000);
     }
-
-    console.log(intersects);
 }
+//
 window.addEventListener('mousemove', onMouseMove)
+window.addEventListener('click', onMouseClick)
 
 controls.update();
 function animate() {  //animation loop
@@ -140,9 +164,9 @@ function animate() {  //animation loop
     sphere.rotation.y += 0.01 
     sphere.rotation.z += 0.01 
 
-    skybox.rotation.x += 0.0001 
-    skybox.rotation.y += 0.0001 
-    skybox.rotation.z += 0.0001 
+    skybox.rotation.x += 0.0003 
+    skybox.rotation.y += 0.0003 
+    skybox.rotation.z += 0.0003 
   
     requestAnimationFrame(animate)
 }

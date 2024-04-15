@@ -43,7 +43,7 @@ camera.lookAt(0, 0, 0);
 const skyboxgeometry = new THREE.BoxGeometry(10000, 10000, 10000);
 const skyboxmaterials = [
     new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/1.png'), side: THREE.DoubleSide}),  //right of camera
-    new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/2.png'), side: THREE.DoubleSide}),  //left of camera
+    new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/left.png'), side: THREE.DoubleSide}),  //left of camera
     new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/3.png'), side: THREE.DoubleSide}),  //top of camera
     new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/4.png'), side: THREE.DoubleSide}),  //bottom of camera
     new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load('docs/assets/skybox/5.png'), side: THREE.DoubleSide}),  //back of camera

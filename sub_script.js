@@ -33,10 +33,23 @@ renderer.setSize(window.innerWidth, window.innerHeight)  //make it take up the f
 renderer.setPixelRatio(devicePixelRatio)  //fix sharp edges
 document.body.appendChild(renderer.domElement)  //append to HTML <body>
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Hemisphere Light
+const hemisphere = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.75);
+scene.add(hemisphere);
+//Ambient Light
+const ambient = new THREE.AmbientLight( 0x404040 );
+scene.add(ambient);
+//light1
+const light1 = new THREE.DirectionalLight(0xFFFFFF, 0.75)
+light1.position.set(0, 5, 0)
+light1.rotation.set(0, 0, 0)
+//scene.add(light1)
+
 //camera
-camera.position.set(0, 5, 10)
+camera.position.set(0, 5, 0)
 //camera.rotation.set(0, 0, 0)
-//
 camera.lookAt(0, 0, 0);
 
 //skybox
@@ -51,60 +64,42 @@ const skyboxmaterials = [
 ];
 const skyboxmaterial = new THREE.MeshFaceMaterial(skyboxmaterials);
 const skybox = new THREE.Mesh(skyboxgeometry, skyboxmaterial);
-//
 skybox.position.set(0, 0, 0);
 skybox.rotation.set(Math.random() * 1, Math.random() * 1, Math.random() * 1);
-//
 scene.add(skybox)
 
 //model
 const gltfLoader = new GLTFLoader();
-gltfLoader.setPath('./docs/assets/model/mig-35/');
-gltfLoader.load('scene.gltf', (gltfScene) => {
+gltfLoader.setPath('./docs/assets/model/Room/');
+gltfLoader.load('Room.gltf', (gltfScene) => {
     //
-    gltfScene.scene.position.set(-1.75, 0.5, -1.75)
+    //gltfScene.scene.position.set(-1.75, 0.5, -1.75)
     gltfScene.scene.rotation.set(0, -Math.PI /2 , 0)
-    gltfScene.scene.scale.set(0.02, 0.02, 0.02)
+    //gltfScene.scene.scale.set(0.02, 0.02, 0.02)
     //
     scene.add(gltfScene.scene);
 });
-
 //plane
 const planegeometry = new THREE.PlaneGeometry(5, 5);
-const planematerial = new THREE.MeshBasicMaterial( {color: 0x00FFFF, side: THREE.DoubleSide} );
+const planematerial = new THREE.MeshPhongMaterial( {color: 0xe3cad3, side: THREE.DoubleSide} );
 const plane = new THREE.Mesh(planegeometry, planematerial);
-//
 plane.position.set(0, 0, 0);
 plane.rotation.set(270 * (Math.PI / 180), 0, 0);
-//
-scene.add(plane)  
-
+//scene.add(plane)  
 //sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 10, 10)
-const spherematerial = new THREE.MeshPhongMaterial({color: 0x00FF00})
+//const spherematerial = new THREE.MeshPhongMaterial({color: 0xcffffb})
+const spherematerial = new THREE.MeshPhongMaterial({color: 0x0000FF})
 const sphere = new THREE.Mesh(sphereGeometry, spherematerial)
-//
 sphere.position.set(0, 2, 0);
 sphere.rotation.set(0, 0, 0);
-//
+//sphere.material.wireframe = true;
+//sphere.material.color.setHex(0xFF0000);
 scene.add(sphere)
 
-//light1
-const light1 = new THREE.DirectionalLight(0xFFFFFF, 0.75)
-//
-light1.position.set(0, 5, 0)
-light1.rotation.set(0, 0, 0)
-//
-scene.add(light1)
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-//light2
-const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.75)
-//
-light2.position.set(3, 3, -5)
-light2.rotation.set(0, 0, 0)
-//
-scene.add(light2)
-
+//keys
 controls.saveState();
 window.addEventListener('keydown', function(e) {
     if(e.code === 'KeyS') //save view
@@ -118,7 +113,6 @@ window.addEventListener('keydown', function(e) {
 //highlight
 let intersects = [];
 let firstobject;
-//let changed = 0;
 let colour;
 const onMouseMove = (event) => {
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -138,7 +132,6 @@ const onMouseMove = (event) => {
 
         firstobject = intersects[0]
         colour = firstobject.object.material.color.getHex();
-        //firstobject.object.material.color.set(colour - 0x111111);
         firstobject.object.material.color.set(0xFFFFFF);
         console.log('highlighted');
     }
@@ -156,6 +149,22 @@ const onMouseClick = (event) => {
 window.addEventListener('mousemove', onMouseMove)
 window.addEventListener('click', onMouseClick)
 
+var initialCode = document.documentElement.innerHTML;
+
+// Function to check if the code has been updated
+function checkForUpdate() {
+    // Get the current code content
+    var currentCode = document.documentElement.innerHTML;
+    
+    // Compare with initial code content
+    if (currentCode !== initialCode) {
+        // If code has been updated, refresh the page
+        location.reload();
+    }
+}
+
+setInterval(checkForUpdate, 5000);
+
 controls.update();
 function animate() {  //animation loop
     renderer.render(scene, camera)
@@ -167,6 +176,7 @@ function animate() {  //animation loop
     skybox.rotation.x += 0.0003 
     skybox.rotation.y += 0.0003 
     skybox.rotation.z += 0.0003 
+    
   
     requestAnimationFrame(animate)
 }

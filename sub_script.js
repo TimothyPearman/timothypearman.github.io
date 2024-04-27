@@ -164,11 +164,6 @@ function checkForUpdate() {
 }
 setInterval(checkForUpdate, 5000);
 
-let animation1 = false;
-function startanimation() {
-    animation1 = true;
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 controls.update();

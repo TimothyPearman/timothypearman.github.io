@@ -14,14 +14,14 @@
                 margin: 0;
             } 
             .absolute {
-                position: absolute;
+                position: absolute; /*overlap with other elements*/
             }
             .front-text {
                 color: white;
                 text-align: center;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                top: 50%; /*centre on y-axis*/
+                left: 50%; /*centre on x-axis*/
+                transform: translate(-50%, -50%); /*move point to centre of text not top left corner*/
 
             }
         </style>
@@ -31,7 +31,7 @@
             <div class="absolute front-text">
                 <h1>Timothy Pearman</h1>
                 <p>IDK what to put here</p>
-                <button>continue</button>
+                <button title="wow cool animation :D" type="button" onclick="startanimation()">continue</button>
             </div>
         </div>
     </body>

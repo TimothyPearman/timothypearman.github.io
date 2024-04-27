@@ -149,8 +149,8 @@ const onMouseClick = (event) => {
 window.addEventListener('mousemove', onMouseMove)
 window.addEventListener('click', onMouseClick)
 
+/*
 var initialCode = document.documentElement.innerHTML;
-
 // Function to check if the code has been updated
 function checkForUpdate() {
     // Get the current code content
@@ -163,6 +163,7 @@ function checkForUpdate() {
     }
 }
 setInterval(checkForUpdate, 5000);
+*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 

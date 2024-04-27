@@ -89,7 +89,7 @@ plane.rotation.set(270 * (Math.PI / 180), 0, 0);
 //sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 10, 10)
 //const spherematerial = new THREE.MeshPhongMaterial({color: 0xcffffb})
-const spherematerial = new THREE.MeshPhongMaterial({color: 0x0000FF})
+const spherematerial = new THREE.MeshPhongMaterial({color: 0xFF0000})
 const sphere = new THREE.Mesh(sphereGeometry, spherematerial)
 sphere.position.set(0, 2, 0);
 sphere.rotation.set(0, 0, 0);
@@ -162,21 +162,33 @@ function checkForUpdate() {
         location.reload();
     }
 }
-
 setInterval(checkForUpdate, 5000);
+
+let animation1 = false;
+function startanimation() {
+    animation1 = true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 controls.update();
 function animate() {  //animation loop
     renderer.render(scene, camera)
 
-    sphere.rotation.x += 0.01 
-    sphere.rotation.y += 0.01 
-    sphere.rotation.z += 0.01 
+    //sphere.rotation.x += 0.01 
+    //sphere.rotation.y += 0.01 
+    //sphere.rotation.z += 0.01 
 
     skybox.rotation.x += 0.0003 
     skybox.rotation.y += 0.0003 
     skybox.rotation.z += 0.0003 
-    
+
+    if (animation1 == true) {
+        camera.rotation.z += 0.01;
+        sphere.rotation.x += 0.01 
+        sphere.rotation.y += 0.01 
+        sphere.rotation.z += 0.01 
+    }
   
     requestAnimationFrame(animate)
 }

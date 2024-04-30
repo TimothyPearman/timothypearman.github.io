@@ -5,7 +5,10 @@
 }
 
 #btn:active {
+    /*
     animation: move 2s linear 1;
+    */
+    font-color: green;
 }
 
 @keyframes spin {

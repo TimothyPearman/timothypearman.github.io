@@ -1,4 +1,4 @@
-.spinning-text {
+.spinning-text:active {
     font-size: 3em;
     color: #3498db; /* blue color */
     animation: spin 3s linear infinite;

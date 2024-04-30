@@ -8,7 +8,7 @@
     /*
     animation: move 2s linear 1;
     */
-    font-color: green;
+    color: green;
 }
 
 @keyframes spin {

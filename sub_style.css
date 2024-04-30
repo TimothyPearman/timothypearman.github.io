@@ -1,14 +1,20 @@
-.spinning-text:active {
+.spinning-text {
     font-size: 3em;
     color: #3498db; /* blue color */
     animation: spin 3s linear infinite;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotateY(0deg);
-    }
-    100% {
-        transform: rotateY(360deg);
-    }
+#btn:active {
+    animation: move 2s linear 1;
 }
+
+@keyframes spin {
+    0% {transform: rotateY(0deg);}
+    100% {transform: rotateY(360deg);}
+}
+
+@keyframes move {
+    0% {transform: translateY(0);}
+    100% {transform: translateY(250);}
+}
+

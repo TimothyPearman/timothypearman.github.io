@@ -22,7 +22,29 @@
                 top: 50%; /*centre on y-axis*/
                 left: 50%; /*centre on x-axis*/
                 transform: translate(-50%, -50%); /*move point to centre of text not top left corner*/
+            }
 
+            .button {
+                padding: 15px 25px;
+                font-size: 24px;
+                text-align: center;
+                cursor: pointer;
+                outline: none;
+                color: #fff;
+                background-color: #04AA6D;
+                border: none;
+                border-radius: 15px;
+                box-shadow: 0 9px #999;
+            }
+            
+            .button:hover {
+                background-color: #3e8e41
+            }
+            
+            .button:active {
+                background-color: #3e8e41;
+                box-shadow: 0 5px #666;
+                transform: translateY(4px);
             }
         </style>
     </head>
@@ -32,7 +54,7 @@
             <div class="absolute front-text">
                 <h1>Timothy Pearman</h1>
                 <p class="spinning-text">IDK what to put here</p>
-                <button class="button" title="wow cool animation :D" type="button" onclick="startanimation()">continue</button>
+                <button title="wow cool animation :D" type="button" onclick="startanimation()">continue</button>
             </div>
         </div>
         <script>

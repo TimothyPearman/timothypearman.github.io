@@ -49,8 +49,8 @@ light1.rotation.set(0, 0, 0)
 
 //camera
 camera.position.set(0, 5, 0)
-//camera.rotation.set(0, 0, 0)
-camera.lookAt(0, 0, 0);
+camera.rotation.set(0, 0, Math.PI /2)
+//camera.lookAt(0, 0, 0);
 
 //skybox
 const skyboxgeometry = new THREE.BoxGeometry(10000, 10000, 10000);
@@ -180,7 +180,8 @@ function animate() {  //animation loop
     skybox.rotation.z += 0.0003 
 
     if (animation1 == true) {
-        camera.rotation.z += 0.01;
+        camera.rotation.z = -Math.PI/2;
+	camera.position.z = 2;
         sphere.rotation.x += 0.01 
         sphere.rotation.y += 0.01 
         sphere.rotation.z += 0.01 

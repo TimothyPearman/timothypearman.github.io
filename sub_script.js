@@ -2,16 +2,24 @@
 import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 //Orbit Contol module
 import { OrbitControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
+//First-Person Contol module
+//import { FirstPersonControls } from 'https://unpkg.com/three@0.126.1/addons/controls/FirstPersonControls.js';
 //import .gltf files
 import { GLTFLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/GLTFLoader.js';
+//import Stats from 'https://unpkg.com/three@0.126.1/addons/libs/stats.module.js'
+//import DAT.GUI
+import { GUI } from 'https://unpkg.com/three@0.164.1/examples/jsm/libs/lil-gui.module.min.js';
+
 
 //creating the structuere
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000)
 const renderer = new THREE.WebGLRenderer({antialias:true})
 const controls = new OrbitControls(camera, renderer.domElement);
+//const controls = new FirstPersonControls(camera, renderer.domElement);
 const pointer = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
+const gui = new GUI({ width: 250 });
 //
 controls.target = new THREE.Vector3(0, 0, 0);
 controls.enableRotate = true;
@@ -33,6 +41,9 @@ renderer.setSize(window.innerWidth, window.innerHeight)  //make it take up the f
 renderer.setPixelRatio(devicePixelRatio)  //fix sharp edges
 document.body.appendChild(renderer.domElement)  //append to HTML <body>
 
+//const stats = new Stats()
+//document.body.appendChild(stats.dom)
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Hemisphere Light
@@ -46,11 +57,6 @@ const light1 = new THREE.DirectionalLight(0xFFFFFF, 0.75)
 light1.position.set(0, 5, 0)
 light1.rotation.set(0, 0, 0)
 //scene.add(light1)
-
-//camera
-camera.position.set(0, 5, 0)
-camera.rotation.set(0, 0, Math.PI /2)
-//camera.lookAt(0, 0, 0);
 
 //skybox
 const skyboxgeometry = new THREE.BoxGeometry(10000, 10000, 10000);
@@ -96,6 +102,49 @@ sphere.rotation.set(0, 0, 0);
 //sphere.material.wireframe = true;
 //sphere.material.color.setHex(0xFF0000);
 scene.add(sphere)
+
+scene.add( new THREE.AxesHelper( 1 ) );
+//x = red
+//y = green
+//z = blue  
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+//camera
+const camerafolder = gui.addFolder('camera');
+camerafolder.add(camera.position, "x", -10, 10, 1).name("sphereX");
+camerafolder.add(camera.position, "y", -10, 10, 1).name("sphereY");
+camerafolder.add(camera.position, "z", -10, 10, 1).name("sphereZ");
+camerafolder.add(camera.rotation, "x", -Math.PI, Math.PI, Math.PI/180).name("X Rotation");
+camerafolder.add(camera.rotation, "y", -Math.PI, Math.PI, Math.PI/180).name("Y Rotation");
+camerafolder.add(camera.rotation, "z", -Math.PI, Math.PI, Math.PI/180).name("Z Rotation");
+
+//skybox
+const skyboxfolder = gui.addFolder('Skybox');
+skyboxfolder.add(skybox.position, "x", -10, 10, 1).name("sphereX");
+skyboxfolder.add(skybox.position, "y", -10, 10, 1).name("sphereY");
+skyboxfolder.add(skybox.position, "z", -10, 10, 1).name("sphereZ");
+skyboxfolder.add(skybox, "visible").name("visibility");
+
+//sphere
+const spherefolder = gui.addFolder('Sphere');
+spherefolder.add(sphere.position, "x", -10, 10, 1).name("sphereX");
+spherefolder.add(sphere.position, "y", -10, 10, 1).name("sphereY");
+spherefolder.add(sphere.position, "z", -10, 10, 1).name("sphereZ");
+spherefolder.add(sphere.scale, "x", 0, 2, 0.1).name("scaleX");
+spherefolder.add(sphere.scale, "y", 0, 2, 0.1).name("scaleY");
+spherefolder.add(sphere.scale, "z", 0, 2, 0.1).name("scaleZ");
+spherefolder.add(sphere, "visible").name("visibility");
+spherefolder.add(spherematerial, "wireframe");
+const colorFormats = {
+    string: "#FFFFFF",
+    int: 0xFFFFFF,
+    object: { r: 1, g: 1, b: 1},
+    array: [1, 1, 1]
+}
+spherefolder.add(colorFormats, "string").onChange(() => {
+    spherematerial.color.set(colorFormats.string);
+});
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -166,22 +215,46 @@ setInterval(checkForUpdate, 5000);
 */
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+let cameraset1 = false;
+let cameraset2 = false;
+let cameraset3 = false;
 
 controls.update();
 function animate() {  //animation loop
     renderer.render(scene, camera)
 
-    //sphere.rotation.x += 0.01 
-    //sphere.rotation.y += 0.01 
-    //sphere.rotation.z += 0.01 
+    if(!cameraset1){
+        //camera
+        camera.position.set(0, 10, 0)
+        camera.rotation.set(Math.PI/2, 0, 0)
+        //camera.lookAt(0, 0, 0);
+        //controls.update();
+        
+        //camera.rotation.x += Math.PI
+        //camera.rotation.x += Math.PI
+
+        cameraset1 = true
+    }
+    
+    
 
     skybox.rotation.x += 0.0003 
     skybox.rotation.y += 0.0003 
     skybox.rotation.z += 0.0003 
 
-    if (animation1 == true) {
-        camera.rotation.z = -Math.PI/2;
-	camera.position.z = 2;
+    if ((animation1 == true) && (!cameraset2)) {
+        if (camera.position.y > 0) {
+            camera.position.y += -0.12
+        }else{
+            cameraset2 = true;
+        }
+
+        if ((camera.rotation.x > 0) && (!cameraset3)) {
+            camera.rotation.x += -0.02
+        }else{
+            cameraset3 = true;
+        }
+
         sphere.rotation.x += 0.01 
         sphere.rotation.y += 0.01 
         sphere.rotation.z += 0.01 

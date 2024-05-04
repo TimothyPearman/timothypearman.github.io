@@ -1,9 +1,9 @@
 //Three.js libary
 import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 //Orbit Contol module
-import { OrbitControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
+//import { OrbitControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
 //First-Person Contol module
-//import { FirstPersonControls } from 'https://unpkg.com/three@0.126.1/addons/controls/FirstPersonControls.js';
+import { PointerLockControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/PointerLockControls.js';
 //import .gltf files
 import { GLTFLoader } from 'https://unpkg.com/three@0.126.1/examples/jsm/loaders/GLTFLoader.js';
 //import Stats from 'https://unpkg.com/three@0.126.1/addons/libs/stats.module.js'
@@ -15,27 +15,13 @@ import { GUI } from 'https://unpkg.com/three@0.164.1/examples/jsm/libs/lil-gui.m
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000)
 const renderer = new THREE.WebGLRenderer({antialias:true})
-const controls = new OrbitControls(camera, renderer.domElement);
-//const controls = new FirstPersonControls(camera, renderer.domElement);
+//const controls = new OrbitControls(camera, renderer.domElement);
+const controls = new PointerLockControls( camera, document.body );
+const blocker = document.getElementById( 'blocker' );
+const instructions = document.getElementById( 'instructions' );
 const pointer = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 const gui = new GUI({ width: 250 });
-//
-controls.target = new THREE.Vector3(0, 0, 0);
-controls.enableRotate = true;
-controls.enablePan = true;
-controls.enableDamping = true;
-controls.dampingFactor = 0.5;
-controls.rotateSpeed = 0.5;
-controls.panSpeed = 1.1;
-controls.minDistance = 1;
-controls.maxDistance = 20;
-//controls.minAzimuthAngle = 0;
-//controls.maxAzimuthAngle = 0;
-//controls.minPolarAngle = 0;
-//controls.maxPolarAngle = 0;
-//controls.autoRotate = true;
-//controls.autoRotateSpeed = 5;
 
 renderer.setSize(window.innerWidth, window.innerHeight)  //make it take up the full screen
 renderer.setPixelRatio(devicePixelRatio)  //fix sharp edges
@@ -44,6 +30,8 @@ document.body.appendChild(renderer.domElement)  //append to HTML <body>
 //const stats = new Stats()
 //document.body.appendChild(stats.dom)
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Hemisphere Light
@@ -103,11 +91,10 @@ sphere.rotation.set(0, 0, 0);
 //sphere.material.color.setHex(0xFF0000);
 scene.add(sphere)
 
-scene.add( new THREE.AxesHelper( 1 ) );
-//x = red
-//y = green
-//z = blue  
+//scene.add( new THREE.AxesHelper( 1 ) ); //(x, y ,z)=(red, green, blue)
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //camera
@@ -147,17 +134,8 @@ spherefolder.add(colorFormats, "string").onChange(() => {
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-//keys
-controls.saveState();
-window.addEventListener('keydown', function(e) {
-    if(e.code === 'KeyS') //save view
-        controls.saveState();
-    if(e.code === 'KeyL') //go back to saved view
-        for (let i = 0; i < 10; i++) {
-            controls.reset();
-        }
-});
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //highlight
 let intersects = [];
@@ -185,6 +163,9 @@ const onMouseMove = (event) => {
         console.log('highlighted');
     }
 }
+//
+window.addEventListener('mousemove', onMouseMove)
+
 //click
 const onMouseClick = (event) => {
     console.log('click');
@@ -195,31 +176,33 @@ const onMouseClick = (event) => {
     }
 }
 //
-window.addEventListener('mousemove', onMouseMove)
 window.addEventListener('click', onMouseClick)
 
-/*
-var initialCode = document.documentElement.innerHTML;
-// Function to check if the code has been updated
-function checkForUpdate() {
-    // Get the current code content
-    var currentCode = document.documentElement.innerHTML;
-    
-    // Compare with initial code content
-    if (currentCode !== initialCode) {
-        // If code has been updated, refresh the page
-        location.reload();
+//window resize
+window.addEventListener( 'resize', function() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+});
+
+
+document.addEventListener('click', function () {
+    if (cameraset3){
+        controls.lock();
     }
-}
-setInterval(checkForUpdate, 5000);
-*/
+});
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 let cameraset1 = false;
 let cameraset2 = false;
 let cameraset3 = false;
+controls.activeLook = false;
 
-controls.update();
 function animate() {  //animation loop
     renderer.render(scene, camera)
 
@@ -235,24 +218,24 @@ function animate() {  //animation loop
 
         cameraset1 = true
     }
-    
-    
 
     skybox.rotation.x += 0.0003 
     skybox.rotation.y += 0.0003 
     skybox.rotation.z += 0.0003 
 
     if ((animation1 == true) && (!cameraset2)) {
+        controls.activeLook = false;
+
         if (camera.position.y > 0) {
             camera.position.y += -0.12
         }else{
             cameraset2 = true;
         }
-
         if ((camera.rotation.x > 0) && (!cameraset3)) {
             camera.rotation.x += -0.02
         }else{
             cameraset3 = true;
+            controls.activeLook = true;
         }
 
         sphere.rotation.x += 0.01 

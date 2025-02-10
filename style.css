@@ -1,124 +1,55 @@
-/* This is a CSS comment */
-
-.Normal { 
-  height: 100px;
-  width: 100px;
-  color: black;
-  font-weight: bold;
-  border: solid 10px crimson;
-}
-  
-.Important { 
-  font-size: 120%;
-  color: red;
-}
-  
-#CLICKME {
-  height: 100px;
-  width: 100px;
-  font-size: 15px;
-  font-family: Ariel;
-  font-style: italic;
-  font-weight: bold;
-  color: cyan;
-  background-color: magenta;
-  border: solid 10px gold;
-  border-radius: 10px;
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-  padding-left: 20px;
-  text-align: center;
-  padding: 20px 20px 20px 20px;
-  float: center;
+.absolute {
+    position: absolute; /*overlap with other elements*/
+} 
+.centre {
+    text-align: center;
+    top: 50%; /*centre on y-axis*/
+    left: 50%; /*centre on x-axis*/
+    transform: translate(-50%, -50%); /*move point to centre of text not top left corner*/
 }
 
-.sticky {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
+.startpage {
+    color: #00ffff;
+    font-size: 3em;
+
+    /*
+    animation: spin 3s linear infinite;
+    */
+}
+.move {
+    animation: move 1.75s forwards;
+}
+@keyframes move {
+    from { transform: translateY(0); }
+    to { transform: translateY(-1500%); }
 }
 
-.header {
-  background-color: #F1F1F1;
-  text-align: center;
-  padding: 20px;
+.button {
+    padding: 15px 25px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #8429f2;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
 }
-
-.topnav {
-  overflow: hidden;
-  background-color: #333;
+.button:hover {
+    background-color: #9748f7
 }
-
-.topnav a {
-  float: left;
-  display: block;
-  color: #f2f2f2; 
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+.button:active {
+    background-color: #8429f2;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
-
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
+.delete {
+    animation: fade 1s;
+    pointer-events: none; /* Disable clicking */
+    opacity: 0;
 }
-
-.column {
-  float: left;
-  width: 100%;
-}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.main{
-  float: left;
-  width: 70%;
-  padding: 10px 10px 10px 10px;
-  background-color: grey;
-  text-align: center;
-  margin: 10px;
-  border: 1px solid black;
-}
-
-.side{
-  float: right;
-  width: 25%;
-  padding: 10px 10px 10px 10px;
-  background-color: grey;
-  text-align: center;
-  margin: 10px;
-  border: 1px solid black;
-}
-
-.section{
-  background-color: #F1F1F1;
-  text-align: center;
-  padding: 20px;
-  margin: 10px;
-  border: 1px solid black;
-}
-
-.article{
-  background-color: #F1F1F1;
-  text-align: center;
-  padding: 20px;
-  margin: 10px;
-  border: 1px solid black;
-}
-
-.footer {
-  float: bottom;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #777;
-  padding: 10px;
-  text-align: center;
-  color: white;
+@keyframes fade {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }

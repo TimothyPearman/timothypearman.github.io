@@ -23,6 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-# personal files
-legacy/
-portfolio1/
+# personal
+notes.txt
